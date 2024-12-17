@@ -3,24 +3,22 @@
 use Spark\ModelLearning\DatasetLoader;
 use Spark\ModelLearning\ModelTrainer;
 
-require_once __DIR__ . '/../../vendor/autoload.php';
+require_once __DIR__ . '/../../../vendor/autoload.php';
 
-
-$algorithm = $argv[1] ?? 'tree'; // Récupère l'argument de ligne de commande ou utilise 'tree' par défaut
+$algorithm = $argv[1] ?? 'tree';
 
 $loader = new DatasetLoader();
 $trainer = new ModelTrainer($algorithm);
 
 echo "Loading training dataset...\n";
-$trainingDataset = $loader->loadDataset(__DIR__ . '/../../image/training');
+$trainingDataset = $loader->loadDataset(__DIR__ . '/../image/training');
 echo "Training dataset loaded.\n";
 
 echo "Training the model...\n";
 $trainer->train($trainingDataset);
 echo "Model trained.\n";
 
-// Create models directory if it doesn't exist
-$modelsDir = __DIR__ . '/../../models';
+$modelsDir = __DIR__ . '/../../public';
 if (!is_dir($modelsDir)) {
     mkdir($modelsDir, 0777, true);
 }
