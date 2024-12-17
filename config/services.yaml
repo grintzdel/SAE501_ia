@@ -1,0 +1,11 @@
+parameters:
+  kernel.secret: '%env(APP_SECRET)%'
+
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  Spark\Web\Controller\:
+    resource: '../src/Web/Controller'
+    tags: ['controller.service_arguments']
