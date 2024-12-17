@@ -53,5 +53,14 @@
             "infection/extension-installer": true,
             "symfony/runtime": true
         }
+    },
+    "extra": {
+        "symfony": {
+            "allow-contrib": true,
+            "require": "7.0.*"
+        },
+        "runtime": {
+            "dotenv_path": "src/Web/.env"
+        }
     }
 }
