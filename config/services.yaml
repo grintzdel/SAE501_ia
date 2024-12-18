@@ -6,6 +6,8 @@ services:
     autowire: true
     autoconfigure: true
 
+  Spark\Web\Service\MlpService: ~
+
   Spark\Web\Controller\:
     resource: '../src/Web/Controller'
     tags: ['controller.service_arguments']
