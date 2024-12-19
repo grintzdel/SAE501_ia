@@ -18,23 +18,21 @@ class MlpController extends AbstractController
             $uploadedFile = $request->files->get('image');
 
             if ($uploadedFile instanceof UploadedFile) {
-                // Vérifier si le fichier est une image valide
                 if (!$uploadedFile->isValid() || !in_array($uploadedFile->getMimeType(), ['image/png', 'image/jpeg'])) {
-                    $this->addFlash('error', 'Veuillez uploader une image valide.');
+                    $this->addFlash('error', 'Veuillez téléverser une image valide au format PNG ou JPEG.');
                     return $this->redirectToRoute('Mlp');
                 }
 
-                // Sauvegarde temporaire de l'image
                 $imagePath = $uploadedFile->getPathname();
 
                 try {
                     $prediction = $modelTestService->testImage($imagePath);
-                    $this->addFlash('success', "Le modèle a prédit le chiffre : $prediction");
+                    $this->addFlash('success', "Prédiction du modèle MultiLayerPerceptron : $prediction");
                 } catch (\Exception $e) {
                     $this->addFlash('error', $e->getMessage());
                 }
             } else {
-                $this->addFlash('error', 'Le fichier téléchargé n\est pas valide. ');
+                $this->addFlash('error', 'Le fichier téléversé n\'est pas valide.');
                 return $this->redirectToRoute('Mlp');
             }
         }

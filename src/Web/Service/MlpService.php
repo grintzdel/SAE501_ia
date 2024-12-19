@@ -7,7 +7,7 @@ use Rubix\ML\Datasets\Unlabeled;
 class MlpService
 {
     private mixed $model;
-    const string PATH_MODEL_MLP = __DIR__ . '/../../public/model_mlp.rbx';
+    const string PATH_MODEL_MLP = __DIR__ . '/../../public/model_mlp_web.rbx';
 
     public function __construct()
     {
@@ -39,7 +39,7 @@ class MlpService
 
         try {
             $prediction = $this->model->predict($dataset);
-            return isset($prediction[0]) ? (int)$prediction[0] : null;
+            return $prediction[0] ?? null;
         } catch (\Exception $e) {
             throw new \RuntimeException("Erreur lors de la prédiction : " . $e->getMessage());
         }
@@ -47,7 +47,7 @@ class MlpService
 
     private function prepareImage(string $imagePath): array
     {
-        // Vérifier si le fichier est une image avec getimagesize()
+
         $imageInfo = getimagesize($imagePath);
         if ($imageInfo === false) {
             throw new \RuntimeException("Le fichier spécifié n'est pas une image valide : $imagePath");
@@ -56,18 +56,15 @@ class MlpService
         $width = $imageInfo[0];
         $height = $imageInfo[1];
 
-        // Vérifier que l'image est bien de taille 28x28
         if ($width !== 28 || $height !== 28) {
             throw new \RuntimeException("L'image doit être de taille 28x28 pixels.");
         }
 
-        // Charger l'image en mémoire
-        $image = @imagecreatefromstring(file_get_contents($imagePath));
+        $image = imagecreatefromstring(file_get_contents($imagePath));
         if (!$image) {
             throw new \RuntimeException("Impossible de charger l'image : $imagePath");
         }
 
-        // Convertir les pixels en niveaux de gris normalisés
         $pixels = [];
         for ($y = 0; $y < $height; $y++) {
             for ($x = 0; $x < $width; $x++) {
@@ -75,12 +72,11 @@ class MlpService
                 $red = ($rgb >> 16) & 0xFF;
                 $green = ($rgb >> 8) & 0xFF;
                 $blue = $rgb & 0xFF;
-                $gray = ($red + $green + $blue) / 3; // Conversion en niveau de gris
-                $pixels[] = $gray / 255; // Normalisation entre 0 et 1
+                $gray = ($red + $green + $blue) / 3;
+                $pixels[] = $gray / 255;
             }
         }
 
-        // Libérer la mémoire utilisée par l'image
         imagedestroy($image);
 
         return $pixels;
