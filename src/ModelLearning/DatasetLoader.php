@@ -27,12 +27,12 @@ class DatasetLoader
                     for ($x = 0; $x < $width; $x++) {
                         $colorIndex = imagecolorat($image, $x, $y);
                         $color = imagecolorsforindex($image, $colorIndex);
-                        $pixels[] = $color['red'];
+                        $pixels[] = $color['red'] / 255;
                     }
                 }
 
                 $samples[] = $pixels;
-                $labels[] = 'digit_' . $label;
+                $labels[] = (string)$label;
 
                 imagedestroy($image);
             }
