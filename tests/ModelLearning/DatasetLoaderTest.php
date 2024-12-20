@@ -63,6 +63,6 @@ class DatasetLoaderTest extends TestCase
         $this->assertCount(4, $dataset->labels(), 'Le nombre de labels doit être 4');
 
         // Vérifie les labels
-        $this->assertEquals(['digit_0', 'digit_0', 'digit_1', 'digit_1'], $dataset->labels(), 'Les labels doivent correspondre');
+        $this->assertEquals(['0', '0', '1', '1'], $dataset->labels(), 'Les labels doivent correspondre');
     }
 }

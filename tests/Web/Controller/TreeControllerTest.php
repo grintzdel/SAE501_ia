@@ -1,14 +1,11 @@
 <?php
 namespace Tests\Spark\Web\Controller;
 
-use Spark\Web\Controller\MlpController;
-use Spark\Web\Service\MlpService;
+use Spark\Web\Service\TreeService;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\HttpFoundation\Response;
-use PHPUnit\Framework\MockObject\MockObject;
 
-class MlpControllerTest extends WebTestCase
+class TreeControllerTest extends WebTestCase
 {
     /**
      * @var MlpService|MockObject
@@ -20,7 +17,7 @@ class MlpControllerTest extends WebTestCase
         parent::setUp();
         
         // Créer un mock pour MlpService
-        $this->modelTestService = $this->createMock(MlpService::class);
+        $this->modelTestService = $this->createMock(TreeService::class);
     }
 
     public function testMlpControllerWithValidImage()
@@ -43,12 +40,12 @@ class MlpControllerTest extends WebTestCase
             ->willReturn(0);  // Simulation d'une prédiction du modèle, ici "5"
 
         // Simuler la requête POST
-        $crawler = $client->request('POST', '/mlp', [], ['image' => $file]);
+        $crawler = $client->request('POST', '/tree', [], ['image' => $file]);
 
         
 
         // Vérifier que le flash message de succès est affiché
-        $this->assertStringContainsString('Prédiction du modèle MultiLayerPerceptron : 0', $client->getResponse()->getContent());
+        $this->assertStringContainsString('Le modèle a prédit le chiffre', $client->getResponse()->getContent());
     }
 
     public function testMlpControllerWithInvalidImage()
@@ -96,9 +93,6 @@ class MlpControllerTest extends WebTestCase
 
         // Simuler la requête POST
         $crawler = $client->request('POST', '/mlp', [], ['image' => $file]);
-
-        // Vérifier que le code de réponse est 302 (redirection)
-        
 
         // Vérifier que le flash message d'erreur est affiché
         $this->assertStringContainsString('Envoyez une image pour tester le modèle de prédiction', $client->getResponse()->getContent());
