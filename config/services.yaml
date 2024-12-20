@@ -7,6 +7,7 @@ services:
     autoconfigure: true
 
   Spark\Web\Service\MlpService: ~
+  Spark\Web\Service\TreeService: ~
 
   Spark\Web\Controller\:
     resource: '../src/Web/Controller'
