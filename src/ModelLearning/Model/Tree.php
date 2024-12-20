@@ -10,6 +10,6 @@ class Tree extends ClassificationTree
     public function createModelTree(): RandomForest
     {
         parent::__construct();
-        return new RandomForest(new ClassificationTree());
+        return new RandomForest(new ClassificationTree(15, 5, 0.1));
     }
 }
